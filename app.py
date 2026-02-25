@@ -1,13 +1,17 @@
 import streamlit as st
 import numpy as np
-from core.data import generate_linear_data
+
 from visualization.plot_data import plot_data_points
 from visualization.plot_regression import plot_regression
-# from core.ols import OLSRegression
+
+from core.metrics import mse, mae
+from core.data import generate_linear_data
+from core.ols import MyOLSRegression
 from core.ols_sklearn import SklearnOLSRegression
 
 
 def main():
+    st.set_page_config(layout="wide")
     st.title("Линейная регрессия")
     st.markdown("""
     Реализованы разные способы обучения регрессии с нуля:
@@ -37,24 +41,37 @@ def main():
     fig = plot_data_points(x_raw, y)
     st.plotly_chart(fig)
 
-    # my_ols = OLSRegression().fit(X, y)
+    my_ols = MyOLSRegression().fit(X, y)
     sklearn_ols = SklearnOLSRegression().fit(X, y)
 
-    st.header("1) OLS - MSE minimization (аналитическое решение)")
+    st.header("1) OLS - MSE minimization")
+    st.subheader("Аналитическое решение")
     col1, col2 = st.columns(2)
+
+    y_pred_my = my_ols.predict(X)
+    y_pred_sklearn = sklearn_ols.predict(X).tolist()
+
+    mse_my = mse(y, y_pred_my)
+    mse_sklearn = mse(y, y_pred_sklearn)
 
     with col1:
         st.subheader("Моя реализация")
-        st.write("позже")
-        # fig_my = plot_regression(x_raw, y, my_ols)
-        # st.plotly_chart(fig_my)
+        fig_my = plot_regression(x_raw, y, my_ols)
+        st.plotly_chart(fig_my)
+        w0, w1 = my_ols.weights
+        st.write(f"Уравнение: y = {w0:.3f} + {w1:.3f}x")
+        st.write(f"MSE: {mse_my:.5f}")
 
     with col2:
         st.subheader("Sklearn")
         fig_sk = plot_regression(x_raw, y, sklearn_ols)
         st.plotly_chart(fig_sk)
+        w0, w1 = sklearn_ols.weights
+        st.write(f"Уравнение: y = {w0:.3f} + {w1:.3f}x")
+        st.write(f"MSE: {mse_sklearn:.5f}")
 
-    st.header("2) MAE minimization (subgradient descent)")
+    st.header("2) MAE minimization")
+    st.subheader("Subgradient descent")
     col1, col2 = st.columns(2)
 
     with col1:
