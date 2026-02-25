@@ -1,5 +1,4 @@
 import streamlit as st
-import numpy as np
 
 from visualization.plot_data import plot_data_points
 from visualization.plot_regression import plot_regression

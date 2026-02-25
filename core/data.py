@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def generate_linear_data(n_samples=100, noise_level=1.0, true_intercept=0.0, true_slope=1.0, x_range=(-3, 3)):
+def generate_linear_data(n_samples=100, noise_level=1.0, true_intercept=0.0, true_slope=1.0, x_range=(-5, 5)):
     x_raw = np.random.uniform(low=x_range[0], high=x_range[1], size=n_samples)
 
     noise = np.random.normal(loc=0.0, scale=noise_level, size=n_samples)
