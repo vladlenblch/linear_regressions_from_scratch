@@ -33,9 +33,9 @@ def main():
         true_slope=true_slope
     )
 
-    st.subheader("Информация о датасете")
+    st.subheader("Информация о данных")
     st.write(f"Сгенерировано {n_samples} точек с уровнем шума {noise_level}")
-    st.write(f"Исходная прямая: y = {true_intercept:.2f} + {true_slope:.2f} * x")
+    st.write(f"Исходная прямая: y = {true_intercept:.2f} + {true_slope:.2f}x")
 
     fig = plot_data_points(x_raw, y)
     st.plotly_chart(fig)
