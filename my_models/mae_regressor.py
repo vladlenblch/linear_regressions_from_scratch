@@ -2,7 +2,7 @@ from random import randint
 
 
 class MyMAERegressor():
-    def __init__(self,  learning_rate=0.01, n_iter=500, decay=0.1):
+    def __init__(self,  learning_rate=0.005, n_iter=5000, decay=0.01):
         self.weights = []
         self.learning_rate = learning_rate
         self.n_iter = n_iter

@@ -8,7 +8,8 @@ class SklearnMAERegressor():
         self.model = QuantileRegressor(
             quantile=0.5,
             alpha=0.0,
-            solver='highs'
+            solver='highs',
+            fit_intercept=False
         )
         self.weights = np.array([])
 
