@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 
+
 def plot_data_points(x_raw, y):
     fig = go.Figure()
     fig.add_trace(go.Scatter(
