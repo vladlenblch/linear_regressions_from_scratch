@@ -1,7 +1,4 @@
 todo:
-- мае регрессор (subgradient descent)
-- склерн сравнение с mae regressor
-
 
 done:
 - инит коммит
@@ -13,3 +10,5 @@ done:
 - визуализатор регрессии
 - сгд
 - визуализатор градиентного спуска
+- мае регрессор (subgradient descent)
+- склерн сравнение с mae regressor

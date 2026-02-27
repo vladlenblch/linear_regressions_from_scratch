@@ -4,14 +4,16 @@ from visualization.plot_data import plot_data_points
 from visualization.plot_regression import plot_regression
 from visualization.plot_sgd import plot_sgd
 
-from utils.metrics import mse
+from utils.metrics import mse, mae
 from utils.data import generate_linear_data
 
 from my_models.ols import MyOLSRegression
 from my_models.sgd import MySGDRegressor
+from my_models.mae_regressor import MyMAERegressor
 
 from sklearn_models.ols_sklearn import SklearnOLSRegression
 from sklearn_models.sgd_sklearn import SklearnSGDRegressor
+from sklearn_models.mae_regressor_sklearn import SklearnMAERegressor
 
 
 def main():
@@ -20,8 +22,8 @@ def main():
     st.markdown("""
     Реализованы разные способы обучения регрессии с нуля:
     1) OLS - MSE minimization (через аналитическое решение)
-    2) Stochastic gradient descent
-    3) MAE minimization (через subgradient descent)
+    2) MAE minimization (через subgradient descent)
+    3) Stochastic gradient descent (итеративная оптимизация)
     """)
 
     st.sidebar.header("Синтезированные данные")
@@ -73,7 +75,37 @@ def main():
         st.write(f"Уравнение: y = {w0_ols_sklearn:.3f} + {w1_ols_sklearn:.3f}x")
         st.write(f"MSE: {mse_ols_sklearn:.5f}")
 
-    st.header("2) Stochastic gradient descent")
+    st.header("2) MAE minimization")
+    st.subheader("Subgradient descent")
+    col1, col2 = st.columns(2)
+
+    my_mae = MyMAERegressor().fit(X, y)
+    sklearn_mae = SklearnMAERegressor().fit(X, y)
+
+    y_pred_mae_my = my_mae.predict(X)
+    y_pred_mae_sklearn = sklearn_mae.predict(X).tolist()
+
+    mae_mae_my = mae(y, y_pred_mae_my)
+    mae_mae_sklearn = mae(y, y_pred_mae_sklearn)
+
+    with col1:
+        st.subheader("Моя реализация")
+        fig_mae_my = plot_regression(x_raw, y, my_mae)
+        st.plotly_chart(fig_mae_my)
+        w0_mae_my, w1_mae_my = my_mae.weights
+        st.write(f"Уравнение: y = {w0_mae_my:.3f} + {w1_mae_my:.3f}x")
+        st.write(f"MAE: {mae_mae_my:.5f}")
+
+    with col2:
+        st.subheader("Sklearn")
+        fig_mae_sklearn = plot_regression(x_raw, y, sklearn_mae)
+        st.plotly_chart(fig_mae_sklearn)
+        w0_mae_sklearn, w1_mae_sklearn = sklearn_mae.weights
+        st.write(f"Уравнение: y = {w0_mae_sklearn:.3f} + {w1_mae_sklearn:.3f}x")
+        st.write(f"MAE: {mae_mae_sklearn:.5f}")
+
+    st.header("3) Stochastic gradient descent")
+    st.subheader("Итеративная оптимизация")
     col1, col2 = st.columns(2)
 
     my_sgd = MySGDRegressor().fit(X, y)
@@ -102,18 +134,6 @@ def main():
         st.write(f"Уравнение: y = {w0_sgd_sklearn:.3f} + {w1_sgd_sklearn:.3f}x")
         st.write(f"MSE: {mse_sgd_sklearn:.5f}")
         st.plotly_chart(plot_sgd(sklearn_sgd, X, y))
-
-    st.header("3) MAE minimization")
-    st.subheader("Subgradient descent")
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.subheader("Моя реализация")
-        st.write("позже")
-
-    with col2:
-        st.subheader("Sklearn")
-        st.write("позже")
 
     st.session_state['X'] = X
     st.session_state['y'] = y

@@ -15,6 +15,7 @@ class SklearnSGDRegressor:
         )
         self.weights = np.array([])
         self.weights_history = []
+        self.learning_rate = learning_rate
         self.n_iter = n_iter
 
     def fit(self, X, y):
