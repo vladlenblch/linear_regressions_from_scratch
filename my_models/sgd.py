@@ -1,12 +1,16 @@
 from random import randint
 
+from utils.metrics import mse
+
 
 class MySGDRegressor:
-    def __init__(self, learning_rate=0.01, n_iter=100, decay=0.1):
+    def __init__(self, learning_rate=0.01, n_iter=500, decay=0.1):
         self.weights = []
         self.learning_rate = learning_rate
         self.n_iter = n_iter
         self.decay = decay
+        self.loss_history = []
+        self.weights_history = []
 
     def compute_gradient(self, X_row, y_true, weights):
         prediction = sum(X_row[i] * weights[i] for i in range(len(weights)))
@@ -21,6 +25,8 @@ class MySGDRegressor:
 
     def fit(self, X, y):
         self.weights = [0.0 for _ in range(len(X[0]))]
+        self.loss_history = []
+        self.weights_history = []
 
         for i in range(self.n_iter):
             idx = randint(0, len(X) - 1)
@@ -31,6 +37,10 @@ class MySGDRegressor:
             self.weights = [
                 self.weights[i] - lr * grad[i] for i in range(len(self.weights))
             ]
+
+            self.weights_history.append(self.weights.copy())
+            predictions = self.predict(X)
+            self.loss_history.append(mse(y, predictions))
 
         return self
 

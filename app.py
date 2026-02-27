@@ -2,6 +2,7 @@ import streamlit as st
 
 from visualization.plot_data import plot_data_points
 from visualization.plot_regression import plot_regression
+from visualization.plot_sgd import plot_sgd
 
 from utils.metrics import mse
 from utils.data import generate_linear_data
@@ -43,7 +44,7 @@ def main():
     fig = plot_data_points(x_raw, y)
     st.plotly_chart(fig)
 
-    st.header("1) OLS - MSE minimization")
+    st.header("1) MSE minimization")
     st.subheader("Аналитическое решение")
     col1, col2 = st.columns(2)
 
@@ -91,6 +92,7 @@ def main():
         w0_sgd_my, w1_sgd_my = my_sgd.weights
         st.write(f"Уравнение: y = {w0_sgd_my:.3f} + {w1_sgd_my:.3f}x")
         st.write(f"MSE: {mse_sgd_my:.5f}")
+        st.plotly_chart(plot_sgd(my_sgd, X, y))
 
     with col2:
         st.subheader("Sklearn")
@@ -99,8 +101,9 @@ def main():
         w0_sgd_sklearn, w1_sgd_sklearn = sklearn_sgd.weights
         st.write(f"Уравнение: y = {w0_sgd_sklearn:.3f} + {w1_sgd_sklearn:.3f}x")
         st.write(f"MSE: {mse_sgd_sklearn:.5f}")
+        st.plotly_chart(plot_sgd(sklearn_sgd, X, y))
 
-    st.header("3) MAE minimization)")
+    st.header("3) MAE minimization")
     st.subheader("Subgradient descent")
     col1, col2 = st.columns(2)
 
