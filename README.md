@@ -2,8 +2,6 @@
 
 ## Установка и запуск локально
 
-Шаги:
-
 ```bash
 # клонировать репозиторий
 git clone https://github.com/vladlenblch/linear_regressions_from_scratch
@@ -18,9 +16,9 @@ pip install -r requirements.txt
 
 # запустить приложение
 streamlit run app.py
-```
 
-Приложение откроется по адресу http://localhost:8501.
+# приложение откроется по адресу http://localhost:8501
+```
 
 ## О проекте
 
@@ -51,7 +49,7 @@ streamlit run app.py
 - `Plotly 5.0.0+`
 - `scikit-learn 1.0.0+`
 
-## Структура репозитория
+## Структура проекта
 
 - `computations/` – операции с матрицами
 - `my_models/` – собственные реализации регрессоров
