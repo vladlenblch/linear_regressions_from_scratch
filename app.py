@@ -3,10 +3,10 @@ import streamlit as st
 from visualization.plot_data import plot_data_points
 from visualization.plot_regression import plot_regression
 
-from core.metrics import mse, mae
-from core.data import generate_linear_data
-from core.ols import MyOLSRegression
-from core.ols_sklearn import SklearnOLSRegression
+from utils.metrics import mse
+from utils.data import generate_linear_data
+from my_models.ols import MyOLSRegression
+from sklearn_models.ols_sklearn import SklearnOLSRegression
 
 
 def main():
